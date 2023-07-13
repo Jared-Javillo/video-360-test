@@ -30,11 +30,13 @@ class Video360PageState extends State<Video360Page> {
   bool _isPaused = false;
   bool _isControlsVisible = false;
   bool _isTouchMovable = false;
+  bool _hasLoaded = false;
 
   @override
   void initState() {
     super.initState();
-    _videoLink = _extractVideoUrl(widget.initialLink ?? 'https://github.com/stephangopaul/video_samples/blob/master/gb.mp4?raw=true');
+    _videoLink = _extractVideoUrl(widget.initialLink ??
+        'https://github.com/stephangopaul/video_samples/blob/master/gb.mp4?raw=true');
     _duration = 0;
     _total = 1;
     _initUniLinks();
@@ -67,6 +69,7 @@ class Video360PageState extends State<Video360Page> {
       child: Scaffold(
         body: Stack(
           children: [
+
             Center(
               child: SizedBox(
                 width: d.maxWidth,
@@ -84,6 +87,9 @@ class Video360PageState extends State<Video360Page> {
                             if (info.duration <= info.total) {
                               _duration = info.duration;
                               _total = info.total;
+                              if (!_hasLoaded && _duration!= 0) {
+                                _hasLoaded = true;
+                              }
                             }
                           });
                         }
@@ -150,7 +156,13 @@ class Video360PageState extends State<Video360Page> {
                   )
                 ],
               ),
-            )
+            ),
+            IfElseBuilder(
+              condition: !_hasLoaded,
+              ifChild: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
           ],
         ),
         floatingActionButton: GestureDetector(
