@@ -22,6 +22,7 @@ class Video360Page extends StatefulWidget {
 class Video360PageState extends State<Video360Page> {
   late int? _duration;
   late int? _total;
+
   late final StreamSubscription _sub;
   late final String? _videoLink;
 
