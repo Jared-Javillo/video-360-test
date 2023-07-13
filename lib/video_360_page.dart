@@ -33,9 +33,7 @@ class Video360PageState extends State<Video360Page> {
   @override
   void initState() {
     super.initState();
-    if (!(widget.initialLink == null)) {
-      _videoLink = _extractVideoUrl(widget.initialLink!)!;
-    }
+    _videoLink = _extractVideoUrl(widget.initialLink ?? 'https://github.com/stephangopaul/video_samples/blob/master/gb.mp4?raw=true');
     _duration = 0;
     _total = 1;
     _initUniLinks();
