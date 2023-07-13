@@ -23,9 +23,9 @@ class Video360PageState extends State<Video360Page> {
   late int? _duration;
   late int? _total;
   late final StreamSubscription _sub;
+  late final String? _videoLink;
 
   Video360Controller? _controller;
-  String? _videoLink;
   bool _isPaused = false;
   bool _isControlsVisible = false;
   bool _isTouchMovable = false;
