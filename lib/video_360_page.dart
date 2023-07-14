@@ -24,8 +24,8 @@ class Video360PageState extends State<Video360Page> {
   late int? _total;
 
   late final StreamSubscription _sub;
-  late final String? _videoLink;
 
+  String? _videoLink;
   Video360Controller? _controller;
   bool _isPaused = false;
   bool _isControlsVisible = false;
@@ -35,8 +35,7 @@ class Video360PageState extends State<Video360Page> {
   @override
   void initState() {
     super.initState();
-    _videoLink = _extractVideoUrl(widget.initialLink ??
-        'https://github.com/stephangopaul/video_samples/blob/master/gb.mp4?raw=true');
+
     _duration = 0;
     _total = 1;
     _initUniLinks();
@@ -54,7 +53,6 @@ class Video360PageState extends State<Video360Page> {
   @override
   Widget build(BuildContext context) {
     final d = Dimension.of(context);
-
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
@@ -69,8 +67,8 @@ class Video360PageState extends State<Video360Page> {
       child: Scaffold(
         body: Stack(
           children: [
-
             Center(
+              key: (ValueKey(_videoLink ?? 'github.com/stephangopaul/video_samples/blob/master/gb.mp4?raw=true')),
               child: SizedBox(
                 width: d.maxWidth,
                 height: d.maxHeight,
@@ -83,6 +81,7 @@ class Video360PageState extends State<Video360Page> {
                     onPlayInfo: (Video360PlayInfo info) {
                       if (mounted) {
                         if (info.duration != 0 && info.total != 0) {
+                          print("Playing: ${_controller?.url}");
                           setState(() {
                             if (info.duration <= info.total) {
                               _duration = info.duration;
@@ -211,15 +210,12 @@ class Video360PageState extends State<Video360Page> {
   Future<void> _initUniLinks() async {
     _sub = linkStream.listen((String? link) {
       if (link != null) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-                maintainState: false,
-                builder: (context) => Video360Page(
-                      initialLink: link,
-                    )),
-            (route) => false);
-        dispose();
+        _controller?.playInfoStream
+            ?.cancel()
+            .then((value) => _controller?.dispose());
+        setState(() {
+          _videoLink = _extractVideoUrl(link);
+        });
       }
     }, onError: (err) {
       if (kDebugMode) {

@@ -6,15 +6,24 @@ import 'package:uni_links/uni_links.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final init = await _handleInitialLink();
-  runApp(
-    MaterialApp(
+  runApp(MyApp(initLink: init));
+}
+
+class MyApp extends StatelessWidget {
+  final String? initLink;
+
+  const MyApp({super.key, this.initLink});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       initialRoute: '/',
       routes: {
-        '/': (context) => Video360Page(initialLink: init),
+        '/': (context) => Video360Page(initialLink: initLink),
       },
       debugShowCheckedModeBanner: false,
-    ),
-  );
+    );
+  }
 }
 
 Future<String?> _handleInitialLink() async {
