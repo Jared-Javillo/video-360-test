@@ -68,7 +68,8 @@ class Video360PageState extends State<Video360Page> {
         body: Stack(
           children: [
             Center(
-              key: (ValueKey(_videoLink ?? 'github.com/stephangopaul/video_samples/blob/master/gb.mp4?raw=true')),
+              key: (ValueKey(_videoLink ??
+                  'github.com/stephangopaul/video_samples/blob/master/gb.mp4?raw=true')),
               child: SizedBox(
                 width: d.maxWidth,
                 height: d.maxHeight,
@@ -85,7 +86,7 @@ class Video360PageState extends State<Video360Page> {
                             if (info.duration <= info.total) {
                               _duration = info.duration;
                               _total = info.total;
-                              if (!_hasLoaded && _duration!= 0) {
+                              if (!_hasLoaded && _duration != 0) {
                                 _hasLoaded = true;
                               }
                             }
@@ -209,9 +210,8 @@ class Video360PageState extends State<Video360Page> {
   Future<void> _initUniLinks() async {
     _sub = linkStream.listen((String? link) {
       if (link != null) {
-        _controller?.playInfoStream
-            ?.cancel()
-            .then((value) => _controller?.dispose());
+        _controller?.playInfoStream?.cancel();
+        _controller?.dispose();
         setState(() {
           _videoLink = _extractVideoUrl(link);
         });
