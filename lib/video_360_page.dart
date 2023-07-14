@@ -81,7 +81,6 @@ class Video360PageState extends State<Video360Page> {
                     onPlayInfo: (Video360PlayInfo info) {
                       if (mounted) {
                         if (info.duration != 0 && info.total != 0) {
-                          print("Playing: ${_controller?.url}");
                           setState(() {
                             if (info.duration <= info.total) {
                               _duration = info.duration;
