@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: "Video 360 Player",
       initialRoute: '/',
       routes: {
         '/': (context) => Video360Page(initialLink: initLink),
