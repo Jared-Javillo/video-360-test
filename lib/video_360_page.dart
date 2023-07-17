@@ -43,11 +43,11 @@ class Video360PageState extends State<Video360Page> {
 
   @override
   void dispose() {
-    super.dispose();
     _controller?.playInfoStream
         ?.cancel()
         .then((value) => _controller?.dispose());
     _sub.cancel();
+    super.dispose();
   }
 
   @override
@@ -210,10 +210,11 @@ class Video360PageState extends State<Video360Page> {
   Future<void> _initUniLinks() async {
     _sub = linkStream.listen((String? link) {
       if (link != null) {
-        _controller?.playInfoStream?.cancel();
-        _controller?.dispose();
         setState(() {
-          _videoLink = _extractVideoUrl(link);
+          _controller?.playInfoStream?.cancel().then((value) {
+            _controller?.dispose();
+            _videoLink = _extractVideoUrl(link);
+          });
         });
       }
     }, onError: (err) {
