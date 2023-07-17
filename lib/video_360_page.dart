@@ -213,6 +213,10 @@ class Video360PageState extends State<Video360Page> {
         setState(() {
           _controller?.playInfoStream?.cancel().then((value) {
             _controller?.dispose();
+            _isPaused = false;
+            _isControlsVisible = false;
+            _isTouchMovable = false;
+            _hasLoaded = false;
             _videoLink = _extractVideoUrl(link);
           });
         });
