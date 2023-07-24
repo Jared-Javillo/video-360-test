@@ -5,7 +5,7 @@ import 'package:uni_links/uni_links.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final init = await _handleInitialLink();
+  final init = await handleInitialLink();
   runApp(MyApp(initLink: init));
 }
 
@@ -23,14 +23,16 @@ class MyApp extends StatelessWidget {
         '/': (context) => Video360Page(initialLink: initLink),
       },
       debugShowCheckedModeBanner: false,
+
     );
   }
 }
 
-Future<String?> _handleInitialLink() async {
+Future<String?> handleInitialLink({Future<String?>? getLinkMethod }) async {
   try {
-    final url = await getInitialLink();
-    if (!(url == null)) {
+    getLinkMethod ??= getInitialLink();
+    final url = await getLinkMethod;
+    if(url != null){
       return url;
     }
   } on Exception catch (_, err) {
